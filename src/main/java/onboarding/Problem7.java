@@ -40,11 +40,10 @@ public class Problem7 {
                 .forEach(friend -> friendScore.put(friend, friendScore.getOrDefault(friend, 0) + 10));
         visitors.stream()
                 .forEach(visitor -> friendScore.put(visitor, friendScore.getOrDefault(visitor, 0) + 1));
-        sortFriendScore(friendScore);
-        return friendScore.keySet().stream().collect(Collectors.toList());
+        return sortFriendScore(friendScore);
     }
 
-    public static void sortFriendScore(Map<String, Integer> friendScore) {
+    public static List<String> sortFriendScore(Map<String, Integer> friendScore) {
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(friendScore.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
             @Override
@@ -52,8 +51,9 @@ public class Problem7 {
                 if (object1.getValue() == object2.getValue()) {
                     return object1.getKey().compareTo(object2.getKey());
                 }
-                return object1.getValue().compareTo(object2.getValue());
+                return object2.getValue().compareTo(object1.getValue());
             }
         });
+        return entries.stream().map(object -> object.getKey()).collect(Collectors.toList());
     }
 }
